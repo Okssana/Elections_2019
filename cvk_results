@@ -1,0 +1,27 @@
+library (data.table)
+library(tidyr)
+library(rvest)
+library(xml2)
+
+#Download files from the Central Comission web-site
+results_president_2019 <- for (n in c(11:40, 45:52, 57:60, 62:103, 105:107, 112:223)){            #Numbers of voting districts, totally 198
+    url_2019 <- paste0("https://www.cvk.gov.ua/pls/vp2019/wp336pt001f01=719pt005f01=", n ,".html")
+    results_2019 <- read_html(url_2019)%>% html_table(fill = TRUE)
+    results_2019[[1]]%>%
+      data.frame()
+
+    #dir.create("results_2019")
+    file <- paste0("results_2019/results_d_", n, ".csv")
+    if (!file.exists(file)) write.csv(results_2019[[1]], file, col.names=FALSE, fileEncoding = "UTF-8") 
+    
+    Sys.sleep(0.5)
+  }
+  
+#Merge CSV files
+csv_files_results <- list.files (path = "C:/Users/user/Desktop/R_JOB/CVK_jails/jails/results_2019/", 
+                                 pattern = "*.csv", 
+                                 full.names = T)
+
+# Import all CSV files
+
+DATA_ALL_results <- as_tibble (rbindlist (lapply (csv_files_results, fread)))
