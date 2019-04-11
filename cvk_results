@@ -4,7 +4,7 @@ library(rvest)
 library(xml2)
 
 #Download files from the Central Comission web-site
-results_president_2019 <- for (n in c(11:40, 45:52, 57:60, 62:103, 105:107, 112:223)){            #Numbers of voting districts, totally 198
+results_president_2019 <- for (n in c(11:40, 45:52, 57:60, 62:103, 105:107, 112:223, 226)){            #Numbers of voting districts, totally 198
     url_2019 <- paste0("https://www.cvk.gov.ua/pls/vp2019/wp336pt001f01=719pt005f01=", n ,".html")
     results_2019 <- read_html(url_2019)%>% html_table(fill = TRUE)
     results_2019[[1]]%>%
